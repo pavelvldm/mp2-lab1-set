@@ -123,12 +123,58 @@ int TBitField::operator!=(const TBitField &bf) const // сравнение
 
 TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 {
-	return *this;
+	if (BitLen > bf.BitLen)
+	{
+		TBitField Result(BitLen);
+
+		for (int i = 0; i < bf.MemLen; i++)
+			Result.pMem[i] = pMem[i] | bf.pMem[i];
+
+		for (int i = bf.MemLen; i < MemLen; i++)
+			Result.pMem[i] = pMem[i];
+
+		return Result;
+	}
+	else
+	{
+		TBitField Result(bf.BitLen);
+
+		for (int i = 0; i < MemLen; i++)
+			Result.pMem[i] = pMem[i] | bf.pMem[i];
+
+		for (int i = MemLen; i < bf.MemLen; i++)
+			Result.pMem[i] = bf.pMem[i];
+
+		return Result;
+	}
 }
 
 TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 {
-	return *this;
+	if (BitLen > bf.BitLen)
+	{
+		TBitField Result(BitLen);
+
+		for (int i = 0; i < bf.MemLen; i++)
+			Result.pMem[i] = pMem[i] & bf.pMem[i];
+
+		for (int i = bf.MemLen; i < MemLen; i++)
+			Result.pMem[i] = 0;
+
+		return Result;
+	}
+	else
+	{
+		TBitField Result(bf.BitLen);
+
+		for (int i = 0; i < MemLen; i++)
+			Result.pMem[i] = pMem[i] & bf.pMem[i];
+
+		for (int i = MemLen; i < bf.MemLen; i++)
+			Result.pMem[i] = 0;
+
+		return Result;
+	}
 }
 
 TBitField TBitField::operator~(void) // отрицание
