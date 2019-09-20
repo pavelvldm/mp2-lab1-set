@@ -179,7 +179,13 @@ TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 
 TBitField TBitField::operator~(void) // отрицание
 {
-	return *this;
+	TBitField Result(*this);
+
+	for (int i = 0; i < BitLen; i++)
+		if (GetBit(i)) Result.ClrBit(i);
+		else Result.SetBit(i);
+
+	return Result;
 }
 
 // ввод/вывод
